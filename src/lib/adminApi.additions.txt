@@ -1,0 +1,35 @@
+/**
+ * adminApi.additions.ts
+ *
+ * ADD these methods to src/lib/adminApi.ts inside adminArticlesApi { }
+ * They are missing from the Session 1 version.
+ *
+ * ─────────────────────────────────────────────────────────────────────────
+ * COPY the block below and merge into your existing adminArticlesApi object:
+ */
+
+/*
+  // Inside adminArticlesApi = { ... } — add these:
+
+  show: (id: number) =>
+    api.get(`/api/v1/admin/articles/${id}`),
+
+  bulk: (ids: number[], action: string) =>
+    api.post('/api/v1/admin/articles/bulk', { ids, action }),
+
+  publish: (id: number) =>
+    api.post(`/api/v1/admin/articles/${id}/publish`),
+
+  unpublish: (id: number) =>
+    api.post(`/api/v1/admin/articles/${id}/unpublish`),
+
+  approve: (id: number) =>
+    api.post(`/api/v1/admin/articles/${id}/approve`),
+
+  reject: (id: number, reason?: string) =>
+    api.post(`/api/v1/admin/articles/${id}/reject`, { reason }),
+*/
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FULL REPLACEMENT for src/lib/adminApi.ts (paste this entire file):
+// ─────────────────────────────────────────────────────────────────────────────

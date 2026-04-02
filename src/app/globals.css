@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
+@layer base {
+  body {
+    @apply bg-white text-gray-900;
+    font-family: var(--font-source-serif), Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair), Georgia, serif;
+    @apply font-bold text-gray-900 leading-tight;
+  }
+
+  a {
+    @apply text-cni-blue hover:text-cni-red transition-colors duration-150;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-cni-blue rounded;
+  }
+}
+
+/* ── Components ──────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* Page container — consistent width across all pages */
+  .page-container {
+    @apply max-w-[1280px] mx-auto px-4;
+  }
+
+  /* Article card */
+  .article-card {
+    @apply bg-white border border-gray-100 hover:border-cni-blue
+           transition-all duration-200 hover:shadow-md;
+  }
+
+  /* Badges */
+  .badge-breaking {
+    @apply bg-cni-red text-white text-xs font-bold uppercase
+           tracking-widest px-2 py-0.5;
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  .badge-category {
+    @apply bg-cni-blue-light text-cni-blue text-xs font-semibold
+           px-2 py-0.5 uppercase tracking-wide;
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  .badge-member-gold {
+    @apply text-xs font-bold px-2 py-0.5;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    background-color: #C9A84C;
+    color: white;
+  }
+
+  .badge-member-platinum {
+    @apply text-xs font-bold px-2 py-0.5;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    background-color: #6D6D8A;
+    color: white;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply bg-cni-blue text-white font-semibold
+           px-5 py-2.5 hover:bg-cni-blue-dark
+           transition-colors duration-150 disabled:opacity-50
+           disabled:cursor-not-allowed;
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  .btn-danger {
+    @apply bg-cni-red text-white font-semibold
+           px-5 py-2.5 hover:bg-cni-red-dark
+           transition-colors duration-150;
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  /* Article body */
+  .article-body {
+    @apply prose prose-lg max-w-none;
+    font-family: var(--font-source-serif), Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.85;
+    color: #1a1a1a;
+  }
+
+  .article-body h2,
+  .article-body h3 {
+    font-family: var(--font-playfair), Georgia, serif;
+  }
+
+  .article-body-rtl {
+    direction: rtl;
+    text-align: right;
+    font-family: 'Noto Nastaliq Urdu', 'Noto Kufi Arabic', serif;
+    font-size: 1.25rem;
+    line-height: 2.2;
+  }
+
+  /* Section divider — red top bar */
+  .section-divider {
+    @apply border-t-4 border-cni-red pb-2 mb-4 pt-1;
+  }
+
+  /* Ticker */
+  .ticker-content {
+    display: inline-block;
+    white-space: nowrap;
+    animation: tickerScroll 40s linear infinite;
+  }
+
+  .ticker-content:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* ── Keyframes ───────────────────────────────────────────────────────────── */
+@keyframes tickerScroll {
+  0%   { transform: translateX(30vw); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes pulseRed {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+@keyframes slideIn {
+  0%   { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
