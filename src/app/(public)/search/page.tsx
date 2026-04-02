@@ -1,7 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
+import { Suspense } from 'react';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -9,7 +8,7 @@ import { articlesApi } from '@/lib/api';
 import ArticleCard from '@/components/article/ArticleCard';
 import type { Article } from '@/types';
 
-export default function SearchPage() {
+function SearchPage() {
   const searchParams = useSearchParams();
   const [q, setQ]    = useState(searchParams.get('q') ?? '');
 
@@ -76,3 +75,5 @@ export default function SearchPage() {
     </div>
   );
 }
+
+export default function SearchPageWrapper() { return <Suspense><SearchPage /></Suspense>; }

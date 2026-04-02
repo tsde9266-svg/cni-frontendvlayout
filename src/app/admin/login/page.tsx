@@ -1,7 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
+import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/hooks/useAuthStore';
@@ -9,7 +8,7 @@ import { ADMIN_ROLES } from '@/types/admin';
 import type { AdminRole } from '@/types/admin';
 import { Input, Button } from '@/components/admin/ui/AdminUI';
 
-export default function AdminLoginPage() {
+function AdminLoginPage() {
   const searchParams = useSearchParams();
   const redirectTo   = searchParams.get('redirect') ?? '/admin';
 
@@ -139,3 +138,5 @@ export default function AdminLoginPage() {
     </div>
   );
 }
+
+export default function AdminLoginPageWrapper() { return <Suspense><AdminLoginPage /></Suspense>; }

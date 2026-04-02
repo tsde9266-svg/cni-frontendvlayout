@@ -1,7 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
+import { Suspense } from 'react';
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -12,7 +11,7 @@ import { membershipApi, articlesApi } from '@/lib/api';
 import type { Article } from '@/types';
 import ArticleCard from '@/components/article/ArticleCard';
 
-export default function AccountPage() {
+function AccountPage() {
   const router       = useRouter();
   const searchParams = useSearchParams();
   const { user }     = useAuthStore();
@@ -222,3 +221,5 @@ export default function AccountPage() {
     </div>
   );
 }
+
+export default function AccountPageWrapper() { return <Suspense><AccountPage /></Suspense>; }

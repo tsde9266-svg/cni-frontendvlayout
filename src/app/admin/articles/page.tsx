@@ -1,7 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
+import { Suspense } from 'react';
 import { useState, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -31,7 +30,7 @@ const TABS = [
 
 const TYPES = ['news','opinion','interview','analysis','bulletin','sponsored'];
 
-export default function ArticlesListPage() {
+function ArticlesListPage() {
   const router       = useRouter();
   const searchParams = useSearchParams();
   const qc           = useQueryClient();
@@ -353,3 +352,5 @@ export default function ArticlesListPage() {
     </AdminShell>
   );
 }
+
+export default function ArticlesListPageWrapper() { return <Suspense><ArticlesListPage /></Suspense>; }
