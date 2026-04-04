@@ -37,10 +37,14 @@ export default function HomePage() {
       {/* ── 4. CATEGORY SECTIONS ─────────────────────────────────────── */}
       <div className="space-y-8 py-4">
         {[
-          { slug: 'politics', label: 'Politics' },
-          { slug: 'pakistan', label: 'Pakistan' },
-          { slug: 'kashmir',  label: 'Kashmir'  },
-          { slug: 'world',    label: 'World'    },
+          { slug: 'world',         label: 'World News'    },
+          { slug: 'uk',            label: 'UK News'       },
+          { slug: 'politics',      label: 'Politics'      },
+          { slug: 'business',      label: 'Business'      },
+          { slug: 'technology',    label: 'Technology'    },
+          { slug: 'sport',         label: 'Sport'         },
+          { slug: 'entertainment', label: 'Entertainment' },
+          { slug: 'science',       label: 'Science'       },
         ].map(cat => (
           <Suspense key={cat.slug} fallback={<div className="h-56 bg-gray-100 animate-pulse" />}>
             <HomeCategoryRow slug={cat.slug} label={cat.label} />
