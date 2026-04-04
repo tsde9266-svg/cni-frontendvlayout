@@ -27,7 +27,7 @@ export default async function HomeLatestFeed() {
       {/* Section header */}
       <div className="flex items-center justify-between pb-2 border-b-[3px] border-cni-red mb-4">
         <h2 className="font-headline text-xl font-bold text-gray-900">Latest News</h2>
-        <Link href="/articles"
+        <Link href="/search"
           className="text-xs font-ui font-semibold text-cni-blue hover:text-cni-red no-underline uppercase tracking-wide flex items-center gap-1 transition-colors">
           All News <span aria-hidden>→</span>
         </Link>
