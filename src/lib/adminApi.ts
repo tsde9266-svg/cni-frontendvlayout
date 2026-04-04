@@ -48,6 +48,9 @@ export const adminArticlesApi = {
   submit: (id: number) =>
     api.post(`/api/v1/articles/${id}/submit`),
 
+  importRss: (limit = 4) =>
+    api.post('/api/v1/admin/articles/import-rss', { limit }),
+
   toggleBreaking: (id: number) =>
     api.post(`/api/v1/articles/${id}/breaking`),
 

@@ -49,6 +49,7 @@ function ArticlesListPage() {
   const [bulkAction,  setBulkAction]  = useState('');
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleteId,    setDeleteId]    = useState<number|null>(null);
+  const [importing,   setImporting]   = useState(false);
 
   // ── Query ─────────────────────────────────────────────────────────────
   const params = {
@@ -91,6 +92,19 @@ function ArticlesListPage() {
     mutationFn: (id: number) => adminArticlesApi.publish(id),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-articles'] }),
   });
+
+  const handleImportRss = useCallback(async () => {
+    setImporting(true);
+    try {
+      const res = await adminArticlesApi.importRss(4);
+      alert(res.data.message);
+      qc.invalidateQueries({ queryKey: ['admin-articles'] });
+    } catch {
+      alert('RSS import failed. Check server logs.');
+    } finally {
+      setImporting(false);
+    }
+  }, [qc]);
 
   const handleSort = useCallback((key: string) => {
     if (sort === key) setOrder(o => o === 'asc' ? 'desc' : 'asc');
@@ -211,11 +225,22 @@ function ArticlesListPage() {
     <AdminShell
       breadcrumbs={[{ label: 'Articles' }]}
       topActions={
-        <Link href="/admin/articles/new">
-          <Button variant="primary" size="sm" icon={<PlusIcon className="w-3.5 h-3.5" />}>
-            New article
+        <div className="flex items-center gap-2">
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={<RefreshIcon className="w-3.5 h-3.5" />}
+            onClick={handleImportRss}
+            loading={importing}
+          >
+            Import from CNN
           </Button>
-        </Link>
+          <Link href="/admin/articles/new">
+            <Button variant="primary" size="sm" icon={<PlusIcon className="w-3.5 h-3.5" />}>
+              New article
+            </Button>
+          </Link>
+        </div>
       }
     >
       <PageHeader
