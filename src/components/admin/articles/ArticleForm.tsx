@@ -9,6 +9,7 @@ import {
 } from '@/components/admin/ui/AdminUI';
 import { adminArticlesApi, adminCategoriesApi, adminTagsApi } from '@/lib/adminApi';
 import SocialPreviewPanel from '@/components/admin/social/SocialPreviewPanel';
+import { FeaturedImageUploader, GalleryUploader } from '@/components/admin/articles/ImageUploader';
 import { categoriesApi } from '@/lib/api';
 import api from '@/lib/api';
 import clsx from 'clsx';
@@ -25,10 +26,14 @@ interface Translation {
   seo_description: string;
 }
 
+interface MediaItem { id: number; url: string; alt: string | null; }
+
 interface ArticleFormData {
   type:                    string;
   main_category_id:        number | '';
   featured_image_media_id: number | null;
+  featured_image_preview:  MediaItem | null;
+  gallery_images:          MediaItem[];
   is_breaking:             boolean;
   is_featured:             boolean;
   allow_comments:          boolean;
@@ -93,6 +98,8 @@ export default function ArticleForm({ articleId }: Props) {
   const [form, setForm] = useState<ArticleFormData>({
     type: 'news', main_category_id: '',
     featured_image_media_id: null,
+    featured_image_preview:  null,
+    gallery_images:          [],
     is_breaking: false, is_featured: false,
     allow_comments: true, scheduled_at: '',
     tag_ids: [], language_id: 1,
@@ -124,6 +131,8 @@ export default function ArticleForm({ articleId }: Props) {
       type:                    existingData.type ?? 'news',
       main_category_id:        existingData.category_id ?? '',
       featured_image_media_id: existingData.featured_image?.id ?? null,
+      featured_image_preview:  existingData.featured_image ?? null,
+      gallery_images:          existingData.gallery_images ?? [],
       is_breaking:             !!existingData.is_breaking,
       is_featured:             !!existingData.is_featured,
       allow_comments:          existingData.allow_comments ?? true,
@@ -197,6 +206,7 @@ export default function ArticleForm({ articleId }: Props) {
     type:                    form.type,
     main_category_id:        form.main_category_id || undefined,
     featured_image_media_id: form.featured_image_media_id || undefined,
+    gallery_media_ids:       form.gallery_images.map(m => m.id),
     is_breaking:             form.is_breaking,
     is_featured:             form.is_featured,
     allow_comments:          form.allow_comments,
@@ -416,6 +426,28 @@ export default function ArticleForm({ articleId }: Props) {
         </Card>
 
  
+        {/* Featured image */}
+        <Card>
+          <h3 className="text-xs font-ui font-semibold text-gray-700 uppercase tracking-wide mb-3">Featured Image</h3>
+          <FeaturedImageUploader
+            value={form.featured_image_preview}
+            onChange={media => setForm(f => ({
+              ...f,
+              featured_image_media_id: media?.id ?? null,
+              featured_image_preview:  media,
+            }))}
+          />
+        </Card>
+
+        {/* Gallery / slider */}
+        <Card>
+          <h3 className="text-xs font-ui font-semibold text-gray-700 uppercase tracking-wide mb-3">Gallery / Slider</h3>
+          <GalleryUploader
+            value={form.gallery_images}
+            onChange={items => setForm(f => ({ ...f, gallery_images: items }))}
+          />
+        </Card>
+
         {/* Share on Social — works on all article statuses */}
         <Card>
           <h3 className="text-xs font-ui font-semibold text-gray-700 uppercase tracking-wide mb-3">
