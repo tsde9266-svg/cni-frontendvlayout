@@ -63,8 +63,10 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (email, password) => {
     const res   = await authApi.login({ email, password });
     const token = res.data.token as string;
-    const user  = res.data.data  as User;
     localStorage.setItem('cni_token', token);
+    // Fetch full profile (includes roles/permissions) so admin redirect works
+    const meRes = await authApi.me();
+    const user  = meRes.data.data as User;
     set({ user, token, loading: false, hydrated: true });
   },
 
