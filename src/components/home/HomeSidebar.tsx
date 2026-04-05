@@ -2,22 +2,22 @@
 // Matches wireframe "STICKY SIDEBAR WIDGETS" spec
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { articlesApi } from '@/lib/api';
+import { serverFetchArticles } from '@/lib/api';
 import type { Article } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 import HomeSocialFeed from '@/components/home/HomeSocialFeed';
 
 async function getEditorsPicks(): Promise<Article[]> {
   try {
-    const res = await articlesApi.list({ featured: true, sort: 'view_count', per_page: 6 });
-    return res.data.data;
+    const res = await serverFetchArticles({ featured: true, sort: 'view_count', per_page: 6 });
+    return res.data as Article[];
   } catch { return []; }
 }
 
 async function getTrending(): Promise<Article[]> {
   try {
-    const res = await articlesApi.list({ sort: 'view_count', per_page: 5 });
-    return res.data.data;
+    const res = await serverFetchArticles({ sort: 'view_count', per_page: 5 });
+    return res.data as Article[];
   } catch { return []; }
 }
 

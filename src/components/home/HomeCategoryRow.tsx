@@ -1,7 +1,7 @@
 // Asymmetric Category Block — fixed 280px height, 3 columns
 import Link from 'next/link';
 import Image from 'next/image';
-import { articlesApi } from '@/lib/api';
+import { serverFetchArticles } from '@/lib/api';
 import type { Article } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -9,8 +9,8 @@ interface Props { slug: string; label: string; labelUrdu?: string; }
 
 async function getCategoryArticles(slug: string): Promise<Article[]> {
   try {
-    const res = await articlesApi.list({ category: slug, per_page: 5 });
-    return res.data.data;
+    const res = await serverFetchArticles({ category: slug, per_page: 5 });
+    return res.data as Article[];
   } catch { return []; }
 }
 

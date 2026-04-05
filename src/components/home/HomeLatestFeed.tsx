@@ -2,14 +2,14 @@
 // Used in the 2/3 main content column of the bottom section
 import Link from 'next/link';
 import Image from 'next/image';
-import { articlesApi } from '@/lib/api';
+import { serverFetchArticles } from '@/lib/api';
 import type { Article } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 
 async function getLatest(): Promise<Article[]> {
   try {
-    const res = await articlesApi.list({ per_page: 8, sort: 'published_at' });
-    return res.data.data;
+    const res = await serverFetchArticles({ per_page: 8, sort: 'published_at' });
+    return res.data as Article[];
   } catch { return []; }
 }
 

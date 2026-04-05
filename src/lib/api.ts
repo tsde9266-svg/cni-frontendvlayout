@@ -30,6 +30,25 @@ api.interceptors.response.use(
 
 export default api;
 
+// ── Server-side fetch helpers (use in Server Components, NOT client code) ──
+// Uses native fetch so Next.js can cache/deduplicate across concurrent renders.
+// Without this, every SSR page render fires fresh axios calls from the same
+// server IP → 429 rate-limit responses → hero/feeds silently return null.
+
+const SERVER_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+
+export async function serverFetchArticles(
+  params: Record<string, string | number | boolean>,
+  revalidate = 60,
+): Promise<{ data: unknown[] }> {
+  const url = new URL('/api/v1/articles', SERVER_BASE);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, String(v)));
+  const res = await fetch(url.toString(), { next: { revalidate } });
+  if (!res.ok) return { data: [] };
+  const json = await res.json();
+  return json;
+}
+
 // ── Typed API helpers ──────────────────────────────────────────────────────
 
 export const articlesApi = {

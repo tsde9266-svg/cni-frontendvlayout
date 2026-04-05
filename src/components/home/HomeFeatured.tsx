@@ -1,14 +1,14 @@
 // Hero Grid: 70% hero post left + 30% featured stories right
 import Link from 'next/link';
 import Image from 'next/image';
-import { articlesApi } from '@/lib/api';
+import { serverFetchArticles } from '@/lib/api';
 import type { Article } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 
 async function getFeatured(): Promise<Article[]> {
   try {
-    const res = await articlesApi.list({ featured: true, per_page: 7 });
-    return res.data.data;
+    const res = await serverFetchArticles({ featured: true, per_page: 7 });
+    return res.data as Article[];
   } catch { return []; }
 }
 
