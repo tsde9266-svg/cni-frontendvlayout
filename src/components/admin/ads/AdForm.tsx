@@ -185,7 +185,7 @@ export default function AdForm({ initialData, onSaved }: Props) {
       fd.append('click_url',     clickUrl);
       fd.append('alt_text',      altText);
       fd.append('placement',     placement);
-      fd.append('is_active',     String(isActive));
+      fd.append('is_active',     isActive ? '1' : '0');
       fd.append('display_order', String(displayOrder));
       if (startsAt) fd.append('starts_at', startsAt);
       if (endsAt)   fd.append('ends_at',   endsAt);
