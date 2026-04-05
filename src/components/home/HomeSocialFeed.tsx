@@ -52,7 +52,7 @@ async function getSocialFeedItems(): Promise<FeedItem[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
   try {
     const res = await fetch(`${apiUrl}/api/v1/social-feed`, {
-      next: { revalidate: 1800 }, // 30 minutes — matches ingest schedule
+      next: { revalidate: 300 }, // 5 min — backend clears its own cache after ingest
     });
     if (!res.ok) return [];
     const data = await res.json();

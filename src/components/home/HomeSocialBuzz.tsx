@@ -26,7 +26,7 @@ async function getSocialBuzzItems(): Promise<FeedItem[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
   try {
     const res = await fetch(`${apiUrl}/api/v1/social-feed`, {
-      next: { revalidate: 1800 },
+      next: { revalidate: 300 },
     });
     if (!res.ok) return [];
     const data = await res.json();
