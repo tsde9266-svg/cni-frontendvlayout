@@ -5,6 +5,9 @@ import Image from 'next/image';
 import { serverFetchArticles } from '@/lib/api';
 import type { Article } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
+import AdBanner from '@/components/ui/AdBanner';
+
+const AD_EVERY = 4; // inject one ad slot after every N articles
 
 async function getLatest(): Promise<Article[]> {
   try {
@@ -33,10 +36,17 @@ export default async function HomeLatestFeed() {
         </Link>
       </div>
 
-      {/* Horizontal card list */}
+      {/* Horizontal card list — ad injected after every AD_EVERY articles */}
       <div className="divide-y divide-gray-100">
-        {articles.map(article => (
-          <Link key={article.id} href={`/article/${article.slug}`}
+        {articles.map((article, idx) => (
+          <div key={article.id}>
+          {/* In-feed ad BEFORE the article when it falls on an interval */}
+          {idx > 0 && idx % AD_EVERY === 0 && (
+            <div className="py-3 border-b border-gray-100">
+              <AdBanner placement="in-feed" />
+            </div>
+          )}
+          <Link href={`/article/${article.slug}`}
             className="group no-underline flex gap-4 py-4 hover:bg-gray-50 transition-colors -mx-2 px-2">
 
             {/* Image */}
@@ -85,6 +95,7 @@ export default async function HomeLatestFeed() {
               </div>
             </div>
           </Link>
+          </div>
         ))}
       </div>
     </section>

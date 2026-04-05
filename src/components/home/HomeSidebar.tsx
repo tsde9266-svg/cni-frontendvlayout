@@ -6,6 +6,7 @@ import { serverFetchArticles } from '@/lib/api';
 import type { Article } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 import HomeSocialFeed from '@/components/home/HomeSocialFeed';
+import AdBanner from '@/components/ui/AdBanner';
 
 async function getEditorsPicks(): Promise<Article[]> {
   try {
@@ -109,6 +110,11 @@ export default async function HomeSidebar() {
           </ol>
         </div>
       )}
+
+      {/* Sidebar ad between Trending and Social Feed */}
+      <div className="mb-4">
+        <AdBanner placement="sidebar" />
+      </div>
 
       {/* Social Feed */}
       <Suspense fallback={<div className="h-48 bg-gray-100 animate-pulse border border-gray-200" />}>
