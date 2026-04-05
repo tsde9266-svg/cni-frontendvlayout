@@ -139,6 +139,22 @@ export const adminEventsApi = {
   delete: (id: number)                 => api.delete(`/api/v1/admin/events/${id}`),
 };
 
+// ── Display Ads ────────────────────────────────────────────────────────────
+export const adminAdsApi = {
+  list:   ()                          => api.get('/api/v1/admin/display-ads'),
+  show:   (id: number)                => api.get(`/api/v1/admin/display-ads/${id}`),
+  create: (formData: FormData)        =>
+    api.post('/api/v1/admin/display-ads', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
+  update: (id: number, formData: FormData) =>
+    api.post(`/api/v1/admin/display-ads/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
+  toggle: (id: number)                => api.post(`/api/v1/admin/display-ads/${id}/toggle`),
+  delete: (id: number)                => api.delete(`/api/v1/admin/display-ads/${id}`),
+};
+
 // ── Media ──────────────────────────────────────────────────────────────────
 export const adminMediaApi = {
   list:   (params?: Params) => api.get('/api/v1/admin/media', { params }),

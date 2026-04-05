@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Ad {
-  id: number;
-  title: string;
-  image_url: string;
-  click_url: string;
-  alt_text: string | null;
+  id:         number;
+  title:      string;
+  image_url:  string;
+  media_type: string;
+  video_url:  string | null;
+  click_url:  string;
+  alt_text:   string | null;
 }
 
 type Placement = 'leaderboard' | 'sidebar' | 'in-feed';
@@ -25,9 +27,9 @@ const HEIGHTS: Record<Placement, string> = {
 };
 
 export default function AdBanner({ placement, className = '' }: Props) {
-  const [ads, setAds]               = useState<Ad[]>([]);
-  const [index, setIndex]           = useState(0);
-  const [visible, setVisible]       = useState(true);
+  const [ads, setAds]       = useState<Ad[]>([]);
+  const [index, setIndex]   = useState(0);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const base = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
@@ -53,6 +55,7 @@ export default function AdBanner({ placement, className = '' }: Props) {
   if (!ads.length) return null;
 
   const ad = ads[index];
+  const isVideo = ad.media_type === 'video' && ad.video_url;
 
   return (
     <div className={`w-full ${className}`}>
@@ -68,17 +71,25 @@ export default function AdBanner({ placement, className = '' }: Props) {
         rel="noopener noreferrer nofollow"
         aria-label={ad.alt_text ?? ad.title}
         className="block overflow-hidden"
-        style={{
-          opacity:    visible ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-        }}
+        style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.3s ease' }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={ad.image_url}
-          alt={ad.alt_text ?? ad.title}
-          className={`w-full object-cover object-center ${HEIGHTS[placement]}`}
-        />
+        {isVideo ? (
+          <video
+            src={ad.video_url!}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className={`w-full object-cover object-center ${HEIGHTS[placement]}`}
+          />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={ad.image_url}
+            alt={ad.alt_text ?? ad.title}
+            className={`w-full object-cover object-center ${HEIGHTS[placement]}`}
+          />
+        )}
       </a>
 
       {/* Dot indicators when there are multiple ads */}

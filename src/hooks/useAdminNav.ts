@@ -93,6 +93,12 @@ const NAV_DEFINITION: NavItem[] = [
     roles: ['super_admin', 'admin'],
   },
   {
+    label: 'Display Ads',
+    href:  '/admin/ads',
+    icon:  'ads',
+    roles: ['super_admin', 'admin'],
+  },
+  {
     label: 'SEO Redirects',
     href:  '/admin/seo-redirects',
     icon:  'seo',

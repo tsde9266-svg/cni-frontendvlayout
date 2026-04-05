@@ -61,6 +61,9 @@ export function NavIconSvg({ name, className = 'w-5 h-5' }: IconProps) {
     case 'audit':
       return <svg {...props}><path strokeLinecap="round" d="M9 17l-5-5 1.41-1.41L9 14.17l9.59-9.58L20 6l-11 11z"/></svg>;
 
+    case 'ads':
+      return <svg {...props}><rect x="2" y="7" width="20" height="13" rx="2"/><path strokeLinecap="round" d="M16 7V5a2 2 0 00-4 0v2M8 12h3m0 0v3m0-3l3 3"/><circle cx="17" cy="14" r="1.5" fill="currentColor" stroke="none"/></svg>;
+
     default:
       return <svg {...props}><circle cx="12" cy="12" r="9"/></svg>;
   }

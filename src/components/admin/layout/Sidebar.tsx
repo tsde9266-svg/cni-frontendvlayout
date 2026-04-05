@@ -41,7 +41,7 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
   // Split nav into sections
   const contentNav  = nav.filter(i => ['dashboard','articles','comments','media','categories','tags'].includes(i.icon));
   const engageNav   = nav.filter(i => ['social','live','events'].includes(i.icon));
-  const adminNav    = nav.filter(i => ['users','authors','memberships','promo','payments'].includes(i.icon));
+  const adminNav    = nav.filter(i => ['users','authors','memberships','promo','payments','ads'].includes(i.icon));
   const systemNav   = nav.filter(i => ['seo','audit','settings'].includes(i.icon));
 
   function NavSection({ items, label }: { items: NavItem[], label: string }) {

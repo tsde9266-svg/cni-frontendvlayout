@@ -49,7 +49,9 @@ export type NavIcon =
   | 'comments'
   | 'settings'
   | 'seo'
-  | 'audit';
+  | 'audit'
+  | 'social'
+  | 'ads';
 
 // ── API paginated response ─────────────────────────────────────────────────
 export interface AdminPagination {
