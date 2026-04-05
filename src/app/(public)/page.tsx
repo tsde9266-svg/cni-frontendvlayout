@@ -35,7 +35,7 @@ export default function HomePage() {
       </Suspense>
 
       {/* ── 4. CATEGORY SECTIONS ─────────────────────────────────────── */}
-      <div className="space-y-8 py-4">
+      <div className="space-y-6 py-4">
         {[
           { slug: 'world',         label: 'World News'    },
           { slug: 'uk',            label: 'UK News'       },
