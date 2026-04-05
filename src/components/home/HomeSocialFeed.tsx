@@ -5,7 +5,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import Script from 'next/script';
 import { SocialFeedThumbnail } from './SocialFeedThumbnail';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -65,9 +64,6 @@ async function getSocialFeedItems(): Promise<FeedItem[]> {
 export default async function HomeSocialFeed() {
   const items = await getSocialFeedItems();
 
-  // Twitter embed widget — always shown (uses Twitter's own JS, no API key needed)
-  const twitterHandle = process.env.TWITTER_HANDLE ?? 'CNINewsNetwork';
-
   return (
     <div className="border border-gray-200 bg-white">
       <div className="px-4 py-2.5 border-b-[3px] border-cni-red bg-gray-50 flex items-center justify-between">
@@ -123,28 +119,6 @@ export default async function HomeSocialFeed() {
         </div>
       )}
 
-      {/* Twitter embedded timeline — free, no API key needed */}
-      <div className="px-4 py-3 border-t border-gray-100">
-        <div className="flex items-center gap-1.5 mb-2">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="#000">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          <span className="text-[10px] font-ui text-gray-400 uppercase tracking-wide">Twitter / X</span>
-        </div>
-        <a
-          className="twitter-timeline"
-          data-height="320"
-          data-theme="light"
-          data-chrome="noheader nofooter noborders"
-          data-tweet-limit="3"
-          href={`https://twitter.com/${twitterHandle}`}
-        >
-          <div className="text-xs text-gray-400 font-ui py-2">
-            Loading tweets from @{twitterHandle}...
-          </div>
-        </a>
-        <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
-      </div>
     </div>
   );
 }
