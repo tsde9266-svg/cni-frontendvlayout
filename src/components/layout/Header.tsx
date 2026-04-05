@@ -99,11 +99,10 @@ export default function Header() {
           {/* Right: Auth + Search */}
           <div className="flex items-center gap-2 shrink-0">
             <Link
-                href="/advertise"
-                onClick={() => setMenuOpen(false)}
-                className="px-3 py-2 text-sm font-ui font-semibold text-cni-blue no-underline"
+                href="/admin"
+                className="hidden md:block px-2 py-1 text-xs font-ui text-gray-400 hover:text-cni-blue no-underline transition-colors border border-gray-200 hover:border-cni-blue"
               >
-                Advertise
+                Admin
               </Link>
             <AuthButton />
             {searchOpen ? (
@@ -175,10 +174,20 @@ export default function Header() {
               );
             })}
 
+            {/* Advertise link — desktop only, pushed to right */}
+            <Link
+              href="/advertise"
+              className={`px-3 py-1 text-[13px] font-semibold whitespace-nowrap no-underline transition-colors ml-auto
+    ${pathname === "/advertise" ? "bg-[#012169] text-white" : "text-cni-blue hover:text-cni-red"}`}
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              Advertise
+            </Link>
+
             {/* Social Feeds link */}
             <Link
               href="/social-feeds"
-              className={`flex items-center gap-1.5 px-3 py-1 text-[13px] font-medium whitespace-nowrap no-underline transition-colors ml-auto
+              className={`flex items-center gap-1.5 px-3 py-1 text-[13px] font-medium whitespace-nowrap no-underline transition-colors
     ${
       pathname === "/social-feeds"
         ? "bg-[#1877F2] text-white"
@@ -251,6 +260,22 @@ export default function Header() {
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 <span className="w-2 h-2 rounded-full bg-cni-red" /> Live
+              </Link>
+              <Link
+                href="/advertise"
+                onClick={() => setMenuOpen(false)}
+                className="px-2 py-2 text-sm font-semibold text-cni-blue no-underline"
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                Advertise
+              </Link>
+              <Link
+                href="/admin"
+                onClick={() => setMenuOpen(false)}
+                className="px-2 py-2 text-sm font-medium text-gray-500 no-underline"
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                Admin
               </Link>
             </div>
           )}

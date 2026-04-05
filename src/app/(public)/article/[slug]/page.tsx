@@ -20,6 +20,7 @@ async function getArticle(slug: string, lang: string): Promise<Article | null> {
   try {
     const res = await fetch(`${API}/api/v1/articles/${encodeURIComponent(slug)}?lang=${lang}`, {
       next: { revalidate: 300 },
+      signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) return null;
     const json = await res.json();
@@ -31,7 +32,7 @@ async function getRelated(categorySlug: string, currentSlug: string): Promise<Ar
   try {
     const res = await fetch(
       `${API}/api/v1/articles?category=${encodeURIComponent(categorySlug)}&per_page=5`,
-      { next: { revalidate: 300 } },
+      { next: { revalidate: 300 }, signal: AbortSignal.timeout(8000) },
     );
     if (!res.ok) return [];
     const json = await res.json();

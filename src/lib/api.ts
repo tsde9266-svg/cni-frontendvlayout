@@ -46,7 +46,10 @@ export async function serverFetchArticles(
 ): Promise<{ data: unknown[] }> {
   const url = new URL('/api/v1/articles', SERVER_BASE);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, String(v)));
-  const res = await fetch(url.toString(), { next: { revalidate } });
+  const res = await fetch(url.toString(), {
+    next: { revalidate },
+    signal: AbortSignal.timeout(8000),
+  });
   if (!res.ok) return { data: [] };
   return res.json(); // shape: { data: Article[], meta: {...} }
 }

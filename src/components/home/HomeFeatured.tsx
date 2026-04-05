@@ -63,7 +63,26 @@ function FeaturedCard({ article, priority }: { article: Article; priority?: bool
 
 export default async function HomeFeatured() {
   const articles = await getFeatured();
-  if (!articles.length) return null;
+  if (!articles.length) {
+    // API failed or returned nothing — show skeleton so the layout doesn't shift
+    return (
+      <section className="mb-0">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,13fr)_minmax(0,7fr)] gap-0 border border-gray-200 md:min-h-[520px]">
+          <div className="bg-gray-200 animate-pulse h-64 md:h-full min-h-[380px]" />
+          <div className="flex flex-col bg-gray-50">
+            <div className="px-3 py-2.5 border-b border-gray-200 bg-white shrink-0">
+              <div className="h-3 w-32 bg-gray-200 animate-pulse rounded" />
+            </div>
+            <div className="grid grid-cols-2 flex-1 divide-x divide-y divide-gray-200">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="bg-gray-100 animate-pulse aspect-video" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   const [hero, ...featured] = articles;
   const gridCards  = featured.slice(0, 4);
