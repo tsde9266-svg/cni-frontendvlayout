@@ -16,13 +16,17 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Global 401 handler — clear token and redirect to login
+// Global 401 handler — clear token and redirect to appropriate login page
 api.interceptors.response.use(
   (res) => res,
   (error) => {
     if (error.response?.status === 401 && typeof window !== 'undefined') {
       localStorage.removeItem('cni_token');
-      window.location.href = '/login';
+      const path = window.location.pathname;
+      // Don't redirect if already on a login page (prevents loops)
+      if (!path.endsWith('/login')) {
+        window.location.href = path.startsWith('/admin') ? '/admin/login' : '/login';
+      }
     }
     return Promise.reject(error);
   }
