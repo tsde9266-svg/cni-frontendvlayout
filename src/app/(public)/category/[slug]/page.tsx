@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { categoriesApi, articlesApi } from '@/lib/api';
 import type { Category, Article, ApiPagination } from '@/types';
 import ArticleCard from '@/components/article/ArticleCard';
 import CategoryPagination from '@/components/ui/CategoryPagination';
 import SidebarAdSlot from '@/components/layout/SidebarAdSlot';
 import Link from 'next/link';
+
+const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 interface Props {
   params:      { slug: string };
@@ -13,23 +14,36 @@ interface Props {
 }
 
 async function getCategory(slug: string, lang: string): Promise<Category | null> {
-  try { return (await categoriesApi.show(slug, lang)).data.data; }
-  catch { return null; }
+  try {
+    const res = await fetch(`${API}/api/v1/categories/${encodeURIComponent(slug)}?lang=${lang}`, {
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) return null;
+    return (await res.json()).data ?? null;
+  } catch { return null; }
 }
 
 async function getArticles(slug: string, page: number): Promise<{ data: Article[]; meta: ApiPagination }> {
+  const empty = { data: [], meta: { current_page: 1, last_page: 1, per_page: 12, total: 0 } };
   try {
-    const res = await articlesApi.list({ category: slug, page, per_page: 12 });
-    return { data: res.data.data, meta: res.data.meta };
-  } catch {
-    return { data: [], meta: { current_page: 1, last_page: 1, per_page: 12, total: 0 } };
-  }
+    const res = await fetch(
+      `${API}/api/v1/articles?category=${encodeURIComponent(slug)}&page=${page}&per_page=12`,
+      { next: { revalidate: 60 } },
+    );
+    if (!res.ok) return empty;
+    const json = await res.json();
+    return { data: json.data ?? [], meta: json.meta ?? empty.meta };
+  } catch { return empty; }
 }
 
 async function getTrending(slug: string): Promise<Article[]> {
   try {
-    const res = await articlesApi.list({ category: slug, sort: 'view_count', per_page: 5 });
-    return res.data.data;
+    const res = await fetch(
+      `${API}/api/v1/articles?category=${encodeURIComponent(slug)}&sort=view_count&per_page=5`,
+      { next: { revalidate: 300 } },
+    );
+    if (!res.ok) return [];
+    return (await res.json()).data ?? [];
   } catch { return []; }
 }
 

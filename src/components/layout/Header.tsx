@@ -154,8 +154,8 @@ export default function Header() {
 
       {/* ── Category nav ────────────────────────────────────────────────── */}
       <nav className="border-b border-gray-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-4">
-          <div className="hidden md:flex items-center h-10 overflow-x-auto">
+        <div className="max-w-[1280px] mx-auto px-4 relative">
+          <div className="hidden md:flex items-center h-10 overflow-x-auto scrollbar-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {navCategories.map((cat) => {
               const isActive = activeCategorySlug === cat.slug;
               return (

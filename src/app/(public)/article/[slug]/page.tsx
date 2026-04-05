@@ -3,12 +3,13 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatDistanceToNow, format } from 'date-fns';
-import { articlesApi } from '@/lib/api';
 import type { Article } from '@/types';
 import ArticleCard from '@/components/article/ArticleCard';
 import ArticleComments from '@/components/article/ArticleComments';
 import ArticleShareBar from '@/components/article/ArticleShareBar';
 import SidebarAdSlot from '@/components/layout/SidebarAdSlot';
+
+const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 interface Props {
   params:      { slug: string };
@@ -17,15 +18,24 @@ interface Props {
 
 async function getArticle(slug: string, lang: string): Promise<Article | null> {
   try {
-    const res = await articlesApi.show(slug, lang);
-    return res.data.data;
+    const res = await fetch(`${API}/api/v1/articles/${encodeURIComponent(slug)}?lang=${lang}`, {
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data ?? null;
   } catch { return null; }
 }
 
 async function getRelated(categorySlug: string, currentSlug: string): Promise<Article[]> {
   try {
-    const res = await articlesApi.list({ category: categorySlug, per_page: 5 });
-    return (res.data.data as Article[]).filter(a => a.slug !== currentSlug).slice(0, 4);
+    const res = await fetch(
+      `${API}/api/v1/articles?category=${encodeURIComponent(categorySlug)}&per_page=5`,
+      { next: { revalidate: 300 } },
+    );
+    if (!res.ok) return [];
+    const json = await res.json();
+    return ((json.data ?? []) as Article[]).filter(a => a.slug !== currentSlug).slice(0, 4);
   } catch { return []; }
 }
 
