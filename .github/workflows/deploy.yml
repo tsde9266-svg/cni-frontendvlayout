@@ -20,9 +20,11 @@ jobs:
       - name: Deploy via SSH
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} '
+            git config --global --add safe.directory /var/www/cni-frontendvlayout &&
             cd /var/www/cni-frontendvlayout &&
             git pull origin main &&
             npm install &&
+            rm -rf .next &&
             npm run build &&
             pm2 restart cni-frontend
           '
