@@ -174,15 +174,41 @@ export default function Header() {
               );
             })}
 
-            {/* Advertise link — desktop only, pushed to right */}
-            <Link
-              href="/advertise"
-              className={`px-3 py-1 text-[13px] font-semibold whitespace-nowrap no-underline transition-colors ml-auto
-    ${pathname === "/advertise" ? "bg-[#012169] text-white" : "text-cni-blue hover:text-cni-red"}`}
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              Advertise
-            </Link>
+            {/* Static links pushed to right */}
+            <div className="ml-auto flex items-center">
+              <Link
+                href="/events"
+                className={`px-3 py-1 text-[13px] font-medium whitespace-nowrap no-underline transition-colors
+      ${pathname === "/events" || pathname.startsWith("/events/") ? "bg-[#012169] text-white" : "text-gray-700 hover:text-red-600"}`}
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                Events
+              </Link>
+              <Link
+                href="/about-us"
+                className={`px-3 py-1 text-[13px] font-medium whitespace-nowrap no-underline transition-colors
+      ${pathname === "/about-us" ? "bg-[#012169] text-white" : "text-gray-700 hover:text-red-600"}`}
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                About Us
+              </Link>
+              <Link
+                href="/contact"
+                className={`px-3 py-1 text-[13px] font-medium whitespace-nowrap no-underline transition-colors
+      ${pathname === "/contact" ? "bg-[#012169] text-white" : "text-gray-700 hover:text-red-600"}`}
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                Contact
+              </Link>
+              <Link
+                href="/advertise"
+                className={`px-3 py-1 text-[13px] font-semibold whitespace-nowrap no-underline transition-colors
+      ${pathname === "/advertise" ? "bg-[#012169] text-white" : "text-cni-blue hover:text-cni-red"}`}
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                Advertise
+              </Link>
+            </div>
 
             {/* Social Feeds link */}
             <Link
@@ -268,6 +294,42 @@ export default function Header() {
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 Advertise
+              </Link>
+              <Link
+                href="/events"
+                onClick={() => setMenuOpen(false)}
+                className="px-2 py-2 text-sm font-medium no-underline"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  color: pathname === "/events" || pathname.startsWith("/events/") ? "#ffffff" : "#374151",
+                  backgroundColor: pathname === "/events" || pathname.startsWith("/events/") ? "#012169" : "transparent",
+                }}
+              >
+                Events
+              </Link>
+              <Link
+                href="/about-us"
+                onClick={() => setMenuOpen(false)}
+                className="px-2 py-2 text-sm font-medium no-underline"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  color: pathname === "/about-us" ? "#ffffff" : "#374151",
+                  backgroundColor: pathname === "/about-us" ? "#012169" : "transparent",
+                }}
+              >
+                About Us
+              </Link>
+              <Link
+                href="/contact"
+                onClick={() => setMenuOpen(false)}
+                className="px-2 py-2 text-sm font-medium no-underline"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  color: pathname === "/contact" ? "#ffffff" : "#374151",
+                  backgroundColor: pathname === "/contact" ? "#012169" : "transparent",
+                }}
+              >
+                Contact
               </Link>
               <Link
                 href="/admin"
